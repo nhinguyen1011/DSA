@@ -22,23 +22,69 @@ void selectionSortWithTime(int a[], int n)
 // 2. InsertionSort
 void insertionSortWithComparison(int arr[], int n, unsigned long long &compareCountInsert)
 {
-    
+    int i, key, j;
+   	for (i = 1; ++compareCountInsert && i < n; i++)
+    	{
+        	key = arr[i];
+        	j = i - 1;
+ 
+        	/* Move elements of arr[0..i-1], that are
+        	greater than key, to one position ahead
+        	of their current position */
+        	while ((++compareCountInsert && j >= 0) && (++compareCountInsert && arr[j] > key))
+       	{
+            	arr[j + 1] = arr[j];
+            	j = j - 1;
+       	}
+       	
+        	arr[j + 1] = key;
+    	}
 }
 
 void insertionSortWithTime(int arr[], int n)
 {
-    
+    int i, key, j;
+   	for (i = 1; i < n; i++)
+    	{
+        	key = arr[i];
+        	j = i - 1;
+ 
+        	/* Move elements of arr[0..i-1], that are
+        	greater than key, to one position ahead
+        	of their current position */
+        	while (j >= 0 && arr[j] > key)
+       	{
+            	arr[j + 1] = arr[j];
+            	j = j - 1;
+       	}
+       	
+        	arr[j + 1] = key;
+    	}
 }
 
 // 3. BubbleSort
 void bubbleSortWithTime(int a[], int n)
 {
-  
+	int i, j;
+	for (i = 0; i < n - 1; i++)    
+	{
+	    // Last i elements are already in place
+	    	for (j = 0; j < (n - i - 1); j++)
+	        	if (a[j] > a[j + 1])
+	      		swap(a[j], a[j + 1]);
+	}    
 }
 
 void bubbleSortWithComparison(int a[], int n, unsigned long long &compareCountBubble)
 {
-   
+	int i, j;
+	for (i = 0; ++compareCountBubble && i < n - 1; i++)    
+	{
+	    // Last i elements are already in place
+	    	for (j = 0; ++compareCountBubble && j < (n - i - 1); j++)
+	        	if (++compareCountBubble && a[j] > a[j + 1])
+	      		swap(a[j], a[j + 1]);
+	}      
 }
 
 // 4. HeapSort
