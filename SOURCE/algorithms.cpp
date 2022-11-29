@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 using namespace std;
 
 void swap(int &a, int &b)
@@ -44,22 +45,88 @@ void bubbleSortWithComparison(int a[], int n, unsigned long long &compareCountBu
 // 4. HeapSort
 void heapBuildWithTime(int index, int a[], int n)
 {
-    
+    bool isHeap = false;
+    int l, k = index;
+
+    while (!isHeap && (2 * k + 1) < n)
+    {
+        l = 2 * k + 1;
+
+        if (l < n - 1)
+            if (a[l] < a[l + 1])
+                l = l + 1;
+
+        if (a[k] > a[l])
+            isHeap = true;
+        else
+        {
+            swap(a[k], a[l]);
+            k = l;
+        }
+    }
 }
 
 void heapSortWithTime(int a[], int n)
 {
-
+    int pos = (n - 1) / 2;
+    while (pos >= 0)
+    {
+        heapBuildWithTime(pos, a, n);
+        pos = pos - 1;
+    }
+    for (int i = n - 1; i > 0; i--)
+    {
+        swap(a[0], a[i]);
+        n = n - 1;
+        heapBuildWithTime(0, a, n);
+    }
 }
 
 void heapBuildWithComparison(int index, int a[], int n, unsigned long long &compareCountHeap)
 {
-   
+    bool isHeap = false;
+    int l, k = index;
+
+    while ((++compareCountHeap && !isHeap) && (++compareCountHeap && (2 * k + 1) < n))
+    {
+
+        l = 2 * k + 1;
+
+        if (++compareCountHeap && l < n - 1)
+        {
+            if (++compareCountHeap && a[l] < a[l + 1])
+            {
+                l = l + 1;
+            }
+        }
+
+        if (++compareCountHeap && a[k] > a[l])
+        {
+            isHeap = true;
+        }
+        else
+        {
+            swap(a[k], a[l]);
+            k = l;
+        }
+    }
 }
 
 void heapSortWithComparison(int a[], int n, unsigned long long &compareCountHeap)
 {
-    
+    int pos = (n - 1) / 2;
+    while (++compareCountHeap && pos >= 0)
+    {
+        heapBuildWithComparison(pos, a, n, compareCountHeap);
+        pos = pos - 1;
+    }
+
+    for (int i = n - 1; ++compareCountHeap && i > 0; i--)
+    {
+        swap(a[0], a[i]);
+        n = n - 1;
+        heapBuildWithComparison(0, a, n, compareCountHeap);
+    }
 }
 
 // 6. QuickSort
@@ -105,32 +172,54 @@ void mergeSortWithComparison(int array[], int const begin, int const end, unsign
 }
 
 // 9.RadixSort
-int MaxNumber(int a[], int n, unsigned long long &count_compare)
-{
-    
-}
-
-void Count(int arr[], int n, int exp, unsigned long long &count_compare)
-{
-    
-}
 
 void radixSortWithComparison(int a[], int n, unsigned long long &count_compare)
 {
-    
+    const int radix = 10;
+	int digits = 10;
+	queue<long> queues[radix];
+	
+	for(int i = 0, factor = 1; ++count_compare && i < digits; factor *= radix, i++)
+	{
+		for(int j = 0;++count_compare && j < n; j++)
+			queues[((a[j]/factor)%radix)].push(a[j]);
+			
+		int k = 0;
+		
+		for(int j = 0;++count_compare && j < radix; j++)
+		{
+			while(++count_compare && !queues[j].empty())
+			{
+				a[k] = queues[j].front();
+				queues[j].pop();
+				k++;
+			}
+		}
+	}
 }
 
-int MaxNumber1(int a[], int n)
-{
-    
-}
-
-void Count1(int arr[], int n, int exp)
-{
-   
-}
 
 void radixSortWithTime(int a[], int n)
 {
-    
+    const int radix = 10;
+	int digits = 10;
+	queue<long> queues[radix];
+	
+	for(int i = 0, factor = 1; i < digits; factor *= radix, i++)
+	{
+		for(int j = 0; j < n; j++)
+			queues[((a[j]/factor)%radix)].push(a[j]);
+			
+		int k = 0;
+		
+		for(int j = 0; j < radix; j++)
+		{
+			while(!queues[j].empty())
+			{
+				a[k] = queues[j].front();
+				queues[j].pop();
+				k++;
+			}
+		}
+	}
 }
