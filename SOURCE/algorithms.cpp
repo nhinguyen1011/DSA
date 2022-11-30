@@ -196,22 +196,54 @@ void heapSortWithComparison(int a[], int n, unsigned long long &compareCountHeap
 // 5. QuickSort
 int partitionTime(int *arr, int low, int high)
 {
-    
+    int pivot = arr[high];
+    int i = (low - 1);
+    for (int j = low; j <= high - 1; j++) {
+        
+        if (arr[j] < pivot) {
+            i++; 
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
 }
 
 int partitionComparison(int *arr, int low, int high, unsigned long long &countCompareQuick)
 {
-    
+    int pivot = arr[high];
+	
+    int i = (low - 1);
+    for (int j = low; ++countCompareQuick && j <= high - 1; j++) {
+        
+        if (++countCompareQuick && arr[j] < pivot) {
+            i++; 
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
 }
 
 void quickSortWithTime(int *arr, int low, int high)
 {
-   
+    if (low < high) {
+
+        int pi = partitionTime(arr, low, high);
+	    
+        quickSortWithTime(arr, low, pi - 1);
+        quickSortWithTime(arr, pi + 1, high);
+    }
 }
 
 void quickSortWithComparison(int *arr, int low, int high, unsigned long long &countCompareQuick)
 {
-    
+        if (++countCompareQuick && low < high) {
+
+        int pi = partitionComparison(arr, low, high, countCampareQuick);
+	    
+        quickSortWithComparison(arr, low, pi - 1, countCampareQuick);
+        quickSortWithComparison(arr, pi + 1, high, countCampareQuick);
 }
 
 // 6.MergeSort
